@@ -78,3 +78,162 @@ DATABASES = {
     },
   }
 }
+
+
+How to start postgres db for development 
+
+step 1: start pgadmin4 web interface 
+
+create a directory name pgadmin4
+
+write this process carefully start pgadming web interface 
+
+$ sudo mkdir /var/lib/pgadmin
+$ sudo mkdir /var/log/pgadmin
+$ sudo chown $USER /var/lib/pgadmin
+$ sudo chown $USER /var/log/pgadmin
+$ python3 -m venv pgadmin4
+$ source pgadmin4/bin/activate
+(pgadmin4) $ pip install pgadmin4
+...
+(pgadmin4) $ pgadmin4
+NOTE: Configuring authentication for SERVER mode.
+
+Enter the email address and password to use for the initial pgAdmin user account:
+
+Email address: user@domain.com
+Password: 
+Retype password:
+Starting pgAdmin 4. Please navigate to http://127.0.0.1:5050 in your browser.
+ * Serving Flask app "pgadmin" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+
+
+ step2: run psql server
+
+  
+  sudo systemctl start postgresql
+
+
+you can use this command to see the state of postgres server
+
+  sudo systemctl status postgresql
+
+now user the same user name and pass word you use in postgressql database in pgadmin4 interface which is most 
+probably availbla in 
+
+http://127.0.0.1:5050/browser/
+
+
+this command let you connect with postgressql service from terminal
+
+sudo psql -h localhost -U "user_domain_com" -d name -W
+
+password is 123456
+
+it think for this to work it expercts information from .pg_Service.conf file in home directory
+
+
+
+
+
+This is what the fuck is going on here for some reason user@domain.com in pgadmin4 is equal to user_domain_com  from config file 
+
+so this is the database configuration code  we have setup in django setting files 
+
+
+DATABASES = {
+  "default": {
+    "ENGINE": "django.db.backends.postgresql",
+    "OPTIONS": {
+      "service": "my_service",
+      "passfile": ".pgpass",
+    },
+  }
+}
+
+what this means is my_service data in pg_service.conf file that should be in home directory has all the data to start a connection for my_django_app or psql command
+this is what is has 
+
+[my_service]
+host=localhost
+user=user_domain_com
+dbname=name
+port=5432
+password=123456
+
+and .pgpass which also should place in the home directory provides the password and other paramters in .pg_service.conf file 
+
+this is what containes 
+
+localhost:5432:name:user_domain_com:123456
+
+this should be in the correct order that file needs permission to read using this command
+
+chmod 0600 ~/.pgpass and it should stricly be 0600 permission
+
+now you can connect to the pgadmin4 interface with user@domain.com and the same password 123456 it is weird but it works.
+
+but in order to run migrations you have to make sure that user@domain.com has the right permission to create tables in the database for that
+you have switch in postgresql user who is runnning the postgress server service and then define the password for postgresuser 
+
+now move out to normal user and login to postrgress terminal with that password but still with permission as postgressql SUPERUSER
+and give persmission to user_domain_name to create tables 
+
+now you can run python manage.py migrate and it will run the migrations and you can see those tables in pgadmin4 interface taa daa daa.
+
+this is termianl logs of doing this 
+
+  ~ sudo vim .pgpass
+[sudo] password for wishwa:             
+➜  ~ chmod 0600 ~/.pgpass
+➜  ~ sudo chmod 0600 ~/.pgpass
+➜  ~ sudo -i -u postgres
+[sudo] password for wishwa:             
+postgres@wishwa-Modern-14-C11M:~$ psql
+psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
+Type "help" for help.
+
+postgres=# ALTER USER postgres WITH PASSWORD '123456';
+ALTER ROLE
+postgres=# \q
+postgres@wishwa-Modern-14-C11M:~$ \q
+Command 'q' not found, but can be installed with:
+apt install python3-q-text-as-data
+Please ask your administrator.
+postgres@wishwa-Modern-14-C11M:~$ exit
+logout
+➜  ~ psql -U postgres -h localhost -d name
+Password for user postgres: 
+psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+Type "help" for help.
+
+name=# SELECT rolname FROM pg_roles;
+           rolname           
+-----------------------------
+ pg_database_owner
+ pg_read_all_data
+ pg_write_all_data
+ pg_monitor
+ pg_read_all_settings
+ pg_read_all_stats
+ pg_stat_scan_tables
+ pg_read_server_files
+ pg_write_server_files
+ pg_execute_server_program
+ pg_signal_backend
+ pg_checkpoint
+ pg_use_reserved_connections
+ pg_create_subscription
+ user_domain_com
+ postgres
+(16 rows)
+
+name=# GRANT CREATE ON SCHEMA public TO "user_domain_com";
+GRANT
+name=# 
+

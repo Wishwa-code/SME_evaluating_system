@@ -69,7 +69,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-//this worked but something wrong becase file name is .my_bgpass but i have used .bgpass as the file path here
+# //this worked but something wrong becase file name is .my_bgpass but i have used .bgpass as the file path here
 
 DATABASES = {
   "default": {
@@ -106,7 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Changing the time zone to sri lanka
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Colombo'
 
 USE_I18N = True
 
