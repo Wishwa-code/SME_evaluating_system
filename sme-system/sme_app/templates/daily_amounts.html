@@ -8,6 +8,24 @@
 
 
         <h2>Add New Daily Amount</h2>
+        {% comment %} {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %} {% endcomment %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message {{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <form id="dailyAmountForm" method="POST" action="{% url 'handle_daily_amounts' %}">
             {% csrf_token %}
             <div>
@@ -34,6 +52,7 @@
             </div>
             <button type="submit">Submit</button>
         </form>
+
 
 
         <table>
@@ -79,11 +98,11 @@
     </div>
     {% endblock %}
     {% block style %}
-    <link href="{% static 'videochat/my_classes_page/classes.css' %}" rel="stylesheet">
-    <link href="{% static 'layout/daily_amounts/daily_amounts.css' %}" rel="stylesheet">
+    {% comment %} <link href="{% static 'videochat/my_classes_page/classes.css' %}" rel="stylesheet"> {% endcomment %}
+    <link href="{% static 'daily_amounts/daily_amounts.css' %}" rel="stylesheet">
 
     {% endblock %}
 
     {% block script %}
-        <script src="{% static 'videochat/my_classes_page/join_available_class.js' %}"></script>
+        {% comment %} <script src="{% static 'videochat/my_classes_page/join_available_class.js' %}"></script> {% endcomment %}
     {% endblock %}

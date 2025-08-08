@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from .models import Daily_amounts, Employee, Styles
+from django.contrib import messages
 import json
 
 # Create your views here.
@@ -48,8 +49,9 @@ def handle_daily_amounts(request):
                 output=output
             )
             daily_amount.save()
-
-            return JsonResponse({"message": "Daily amount added successfully"}, status=201)
+            messages.success(request, "Daily amount added successfully! 🎉")
+            # return JsonResponse({"message": "Daily amount added successfully"}, status=201)
+            return redirect('handle_daily_amounts')
 
         except Employee.DoesNotExist:
             return JsonResponse({"error": "Employee with the given ID does not exist."}, status=404)
