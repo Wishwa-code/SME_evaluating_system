@@ -1,0 +1,129 @@
+/* !------------- Layout styles -------------! */
+
+#main-component{
+    display:flex;
+    flex-direction: row;
+}
+
+/* !------------- Navigation bar styles -------------! */
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:start;
+    min-width: 300px;
+    height: 100vh;
+    background-color: #000000;
+    color: #F4F7F6;
+    transition: width 1s ease-in-out, opacity 0.3s ease-in-out;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.hide {
+    display: none;
+    left:-220px;
+    min-width: 0px;
+    width:0px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.top_bar_nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    width:100%;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    gap: 10px;
+    cursor: pointer;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.nav-bar-icons{
+    width:20px;
+    padding-left: 0px;
+    margin-right: 20px;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: #FDD693;
+    color: rgb(0, 0, 0);
+}
+
+.logout-button{
+    cursor:pointer;
+}
+
+
+/* !------------- Toggle Button styles -------------! */
+
+/* Toggle Button Styles */
+.toggle-button {
+    position: absolute;
+    left: 0px;
+    top:0px;
+    z-index: 1100;
+    background-color: #FDD693;
+    color: #16161E;
+    border: none;
+    cursor: pointer;
+    transition: left 0.3s ease-in-out;
+    width: 50px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 27px; 
+    outline: none;
+}
+
+.toggle-button.hide {
+    left: 300px;
+}
+
+.chevron {
+    display: inline-block;
+    transition: transform 0.7s ease;
+    font-size: 40px;
+    transform-origin: 50% 50%;
+    vertical-align: middle;
+    padding-bottom: 10px;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+
+/* !------------- Profile section styles -------------! */
+
+.profile-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 500;
+    padding-top: 10px;
+}

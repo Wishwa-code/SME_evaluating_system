@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="main-container">
+        <h1>Daily Amounts Report</h1>
+
+
+
+
+        <h2>Add New Daily Amount</h2>
+        <form id="dailyAmountForm" method="POST" action="{% url 'handle_daily_amounts' %}">
+            {% csrf_token %}
+            <div>
+                <label for="employee">Employee:</label>
+                <select id="employee" name="employee" required>
+                    <option value="">Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="style">Style:</label>
+                <select id="style" name="style" required>
+                    <option value="">Select Style</option>
+                    {% for style in styles %}
+                    <option value="{{ style.id }}">{{ style.style_code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="output">Output:</label>
+                <input type="number" id="output" name="output" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Style Code</th>
+                    <th>Output</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for amount in page_obj %}
+                <tr>
+                    <td>{{ amount.employee.name }}</td>
+                    <td>{{ amount.style.style_code }}</td>
+                    <td>{{ amount.output }}</td>
+                    <td>{{ amount.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endblock %}
+    {% block style %}
+    <link href="{% static 'videochat/my_classes_page/classes.css' %}" rel="stylesheet">
+    <link href="{% static 'layout/daily_amounts/daily_amounts.css' %}" rel="stylesheet">
+
+    {% endblock %}
+
+    {% block script %}
+        <script src="{% static 'videochat/my_classes_page/join_available_class.js' %}"></script>
+    {% endblock %}
