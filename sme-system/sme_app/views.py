@@ -79,3 +79,94 @@ def handle_daily_amounts(request):
         })
 
     return JsonResponse({"error": "Only POST and GET requests are supported."}, status=405)
+
+
+
+@csrf_exempt
+def handle_employees(request):
+    """
+    Handles POST requests to add a new Employee and GET requests
+    to retrieve paginated employees.
+    """
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            address = request.POST.get('address')
+            employee_code = request.POST.get('employee_code')
+            mobile_number = request.POST.get('mobile_number')
+            efp_number = request.POST.get('efp_number')
+
+            if not all([name, address, employee_code]):
+                return JsonResponse({"error": "Missing one or more required fields."}, status=400)
+            
+            employee = Employee(
+                name=name,
+                address=address,
+                employee_code=employee_code,
+                mobile_number=mobile_number,
+                efp_number=efp_number
+            )
+            employee.save()
+            messages.success(request, "Employee added successfully! 👷")
+            return redirect('handle_employees')
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    elif request.method == 'GET':
+        employees_list = Employee.objects.all().order_by('name')
+        
+        paginator = Paginator(employees_list, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'employees.html', {
+            'page_obj': page_obj,
+        })
+    
+    return JsonResponse({"error": "Only POST and GET requests are supported."}, status=405)
+
+
+@csrf_exempt
+def handle_styles(request):
+    """
+    Handles POST requests to add a new Style and GET requests
+    to retrieve paginated styles.
+    """
+    if request.method == 'POST':
+        try:
+            style_code = request.POST.get('style_code')
+            operation = request.POST.get('operation')
+            mach = request.POST.get('mach')
+            smv = request.POST.get('smv')
+            target = request.POST.get('target')
+
+            if not all([style_code, operation, mach, smv, target]):
+                return JsonResponse({"error": "Missing one or more required fields."}, status=400)
+            
+            style = Styles(
+                style_code=style_code,
+                operation=operation,
+                mach=mach,
+                smv=smv,
+                target=target
+            )
+            style.save()
+            messages.success(request, "Style added successfully! 🧵")
+            return redirect('handle_styles')
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    elif request.method == 'GET':
+        styles_list = Styles.objects.all().order_by('style_code')
+        
+        paginator = Paginator(styles_list, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'styles.html', {
+            'page_obj': page_obj,
+        })
+    
+    return JsonResponse({"error": "Only POST and GET requests are supported."}, status=405)

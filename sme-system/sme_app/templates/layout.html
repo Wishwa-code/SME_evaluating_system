@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"  />
 
-        <title>{% block title %}පන්තිය | Panthiya{% endblock %}</title>
+        <title>{% block title %}SMV-SYSTEM{% endblock %}</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,30 +36,30 @@
             <div id="side-navigation-bar" class="navbar">
                 <div class="logo">
                     {% comment %} <img class="profile-pic" width="100" height="100" src={{profile.photo.url}} alt="User" /> {% endcomment %}
-                    <p class="logo-name"><b>පන්තිය</b></p>
+                    <p class="logo-name"><b>SMV-SYSTEM</b></p>
                 </div>
 
                 <div class="top_bar_nav">
-                    <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+                    <a href="/sme_app/daily_amounts" class="nav-item {% if request.path == '/sme_app/daily_amounts' %}active{% endif %}">
                         <div class="nav-link " >
-                            <i class='fa-duotone fa-solid fa-person-chalkboard nav-bar-icons'></i>
-                                My Classrooms
+                            <i class='fa-solid fa-bars-progress nav-bar-icons'></i>
+                                Daily register
                         </div>
                     </a>
-                    <a href="/available/" class="nav-item {% if request.path == '/available/' %}active{% endif %}">
+                    <a href="/sme_app/styles" class="nav-item {% if request.path == '/sme_app/styles' %}active{% endif %}">
                     <div  class="nav-link ">
                         
-                            <i class='fa-duotone fa-solid fa-search nav-bar-icons'></i>
-                                Find New Classroom
+                            <i class='fa-solid fa-layer-group nav-bar-icons'></i>
+                                Styles
                     </div>
                     </a>
-                    <a href="/create-class/" class="nav-item {% if request.path == '/create-class/' %}active{% endif %}">
+                    <a href="/sme_app/employees" class="nav-item {% if request.path == '/sme_app/employees' %}active{% endif %}">
                         <div class="nav-link ">
-                            <i class='fa-duotone fa-solid fa-plus nav-bar-icons'></i>
-                            Create a classroom
-                        </div>
+                            <i class='fa-solid fa-users nav-bar-icons'></i>
+                                Employees                        
+                            </div>
                     </a>
-                    <a href="/find-freind/" class="nav-item {% if request.path == '/find-freind/' %}active{% endif %}">
+                    {% comment %} <a href="/find-freind/" class="nav-item {% if request.path == '/find-freind/' %}active{% endif %}">
                         <div class="nav-link ">
                             <i class='fa-duotone fa-solid fa-handshake nav-bar-icons'></i>
                             Add freinds
@@ -71,7 +71,7 @@
                                 <i class='fa-duotone fa-solid fa-feather nav-bar-icons'></i>
                                 Chat
                         </div>
-                    </a>
+                    </a> {% endcomment %}
                 </div>
 
                 <div class="bottom-options">
